@@ -1,0 +1,22 @@
+# Ignorar arquivos e pastas de compilação
+bin/
+obj/
+
+# Ignorar configurações específicas de IDE
+.vs/
+.idea/
+.vscode/
+
+# Ignorar configurações de usuário do Visual Studio
+*.user
+*.suo
+
+# Ignorar pacotes NuGet locais
+/packages/
+
+# Ignorar arquivos de configuração sensíveis
+appsettings*.json
+
+# Ignorar certificados e chaves
+*.pfx
+*.cer
