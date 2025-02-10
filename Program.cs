@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using MotelAPI.Services; 
+using MotelAPI.Configurations;
+using MotelAPI.Services;
+using MotelAPI.Utils;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
