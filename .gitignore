@@ -1,27 +1,35 @@
-# Ignorar arquivos e pastas de compilação
+# Ignore build outputs
 bin/
 obj/
+publish/
 
-# Ignorar configurações específicas de IDE
-.vs/
-.idea/
-.vscode/
-
-# Ignorar configurações do VScode
+# Ignore user-specific files
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
 
-# Ignorar pacotes NuGet locais
+# Ignore Rider project files
+.idea/
+
+# Ignore Visual Studio Code workspace settings
+.vscode/
+
+# Ignore local NuGet packages
 /packages/
 
-# Ignorar arquivos de configuração sensíveis
+# Ignore .NET Core project files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Ignore sensitive configuration files
 appsettings*.json
 appsettings.Development.json
 MotelAPI.sln
 MotelAPI.csproj
 MotelAPI.http
 
-
-# Ignorar certificados e chaves
+# Ignore certificates and keys
 *.pfx
 *.cer
