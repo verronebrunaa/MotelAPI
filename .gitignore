@@ -21,6 +21,7 @@ MotelAPI.sln
 MotelAPI.csproj
 MotelAPI.http
 
+
 # Ignorar certificados e chaves
 *.pfx
 *.cer

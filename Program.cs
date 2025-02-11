@@ -2,16 +2,35 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MotelAPI.Configurations;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using MotelAPI.Services;
 using MotelAPI.Utils;
 using System.Text;
+using DotNetEnv;
+using System.Reflection;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-SecretKeyGenerator.GenerateAndSaveSecretKey(); 
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+if (string.IsNullOrEmpty(dbPassword))
+{
+    throw new InvalidOperationException("A senha do banco de dados não foi fornecida.");
+}
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("A string de conexão não foi fornecida.");
+}
+
+connectionString = connectionString.Replace("#{DB_PASSWORD}#", dbPassword);
 
 builder.Services.AddDbContext<MotelAPI.Data.MotelDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
@@ -40,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Motel API",
         Version = "v1",
-        Description = "API para gerenciamento de reservas e motéis."
+        Description = "API para gerenciamento de reservas e motéis.",
     });
 });
 
