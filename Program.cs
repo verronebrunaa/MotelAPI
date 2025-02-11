@@ -14,10 +14,16 @@ Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+var secretKey = Environment.GetEnvironmentVariable("SECRET_KEY");
 
 if (string.IsNullOrEmpty(dbPassword))
 {
     throw new InvalidOperationException("A senha do banco de dados não foi fornecida.");
+}
+
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new InvalidOperationException("A chave secreta não foi fornecida.");
 }
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -47,7 +53,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
         };
     });
 
@@ -60,7 +66,7 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Motel API",
         Version = "v1",
         Description = "API para gerenciamento de reservas e motéis.",
-        });
+    });
 });
 
 var app = builder.Build();

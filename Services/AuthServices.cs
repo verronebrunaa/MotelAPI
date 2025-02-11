@@ -40,7 +40,7 @@ namespace MotelAPI.Services
 
         private bool VerifyPassword(Usuario usuario, string senha)
         {
-            var result = _passwordHasher.VerifyHashedPassword(usuario, usuario.SenhaHash, senha);
+            var result = _passwordHasher.VerifyHashedPassword(usuario, usuario.Senha, senha);
             return result == PasswordVerificationResult.Success;
         }
 
