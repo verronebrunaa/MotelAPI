@@ -11,8 +11,8 @@ namespace MotelAPI.Entities
         public decimal ValorTotal { get; set; }
 
         // Relationships
-        public Cliente Cliente { get; set; }
-        public TipoSuite TipoSuite { get; set; }
-        public Motel Motel { get; set; }
+        public Cliente? Cliente { get; set; }
+        public TipoSuite? TipoSuite { get; set; }
+        public Motel? Motel { get; set; }
     }
 }

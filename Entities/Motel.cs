@@ -4,6 +4,7 @@ namespace MotelAPI.Entities
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public string Endereco { get; set; }
+        public int TipoSuiteId { get; set; }  // foreign key
+        public TipoSuite TipoSuite { get; set; }
     }
 }
