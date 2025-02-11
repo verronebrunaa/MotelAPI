@@ -11,7 +11,7 @@ using MotelAPI.Data;
 namespace MotelAPI.Migrations
 {
     [DbContext(typeof(MotelDbContext))]
-    [Migration("20250211012023_InitialCreate")]
+    [Migration("20250211031928_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,10 +134,6 @@ namespace MotelAPI.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SenhaHash")
                         .IsRequired()
                         .HasColumnType("longtext");
 

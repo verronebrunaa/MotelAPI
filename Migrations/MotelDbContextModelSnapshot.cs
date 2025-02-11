@@ -135,10 +135,6 @@ namespace MotelAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("SenhaHash")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
