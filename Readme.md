@@ -1,20 +1,23 @@
 # MotelAPI
 
 ## 📌 Sobre o Projeto
-MotelAPI é uma API RESTful desenvolvida em .NET Core para gerenciamento de motéis, incluindo funcionalidades como cadastro de usuários, reservas e faturamento. 
+MotelAPI é uma API RESTful desenvolvida em .NET Core para gerenciamento eficiente de motéis, oferecendo funcionalidades como cadastro de usuários, controle de reservas e faturamento. A API visa otimizar a gestão de dados de clientes, tipos de suítes e histórico de reservas, além de fornecer relatórios de faturamento mensal.
 
 ## 🚀 Tecnologias Utilizadas
-- .NET Core 9.0
-- Entity Framework Core
-- SQL Server
-- JWT para autenticação
+
+<p align="center">
+  <img src="https://img.shields.io/badge/.NET_Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET Core">
+  <img src="https://img.shields.io/badge/Entity_Framework_Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="Entity Framework Core">
+  <img src="https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="SQL Server">
+  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT">
+</p>
 
 ## 📋 Funcionalidades
-- [] Cadastro e login de usuários com autenticação JWT
-- [] Endpoint para listar reservas filtradas por data
-- [] Endpoint otimizado para obter faturamento mensal
-- [] Modelo relacional para tipos de suíte, motéis, clientes e reservas
-- [] Cache para otimização da listagem de reservas
+- [ ] **Cadastro e login de usuários:** Garante a segurança no acesso à API.
+- [ ] **Listagem de reservas filtradas por data:** Otimiza a consulta de histórico de reservas.
+- [ ] **Obtenção de faturamento mensal:** Proporciona visibilidade para análise financeira.
+- [ ] **Cadastro de moteis e de suítes:** 
+- [ ] **Gerenciamento de reserva:** 
 
 ## 🛠️ Configuração do Ambiente
 
@@ -37,66 +40,40 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 ```
 
 ### 🔧 Passo 3: Instalar Dependências
-Antes de rodar o projeto, instale os pacotes necessários:
+Antes de rodar o projeto, instale os pacotes necessários. Você pode usar o seguinte comando para instalar todas as dependências de uma vez:
 ```sh
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.4
-dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.4
-dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.4
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.4
+dotnet restore
 ```
-Caso tenha problemas na instalação, limpe o cache e restaure os pacotes:
+Caso tenha problemas na instalação, limpe o cache e restaure os pacotes manualmente:
 ```sh
 dotnet nuget locals all --clear
-dotnet restore
 ```
 
 ### 📂 Passo 4: Configurar o Banco de Dados
-1. Configure a string de conexão no `appsettings.json`:
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=SEU_SERVIDOR;Database=MotelDB;User Id=SEU_USUARIO;Password=SUA_SENHA;"
-}
-```
-2. Execute as migrações do banco de dados:
-```sh
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
+1. Configure a string de conexão no arquivo `appsettings.json` com suas credenciais:
+    ```json
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=SEU_SERVIDOR;Database=MotelDB;User Id=SEU_USUARIO;Password=SUA_SENHA;"
+    }
+    ```
+2. Execute as migrações para criar as tabelas no banco:
+    ```sh
+    dotnet ef migrations add InitialCreate
+    dotnet ef database update
+    ```
+
+**Dica:** Caso queira utilizar um banco de dados local, você pode instalar o SQL Server Express e configurar a string de conexão com `Server=localhost`.
 
 ### ▶️ Passo 5: Executar a API
 Para rodar a API, utilize:
 ```sh
 dotnet run
 ```
-A API ficará disponível em `http://localhost:5000`. 
-O Swagger da aplicação em `http://localhost:5027/index.html`
+A API ficará disponível em `http://localhost:5000`. O Swagger da aplicação estará em `http://localhost:5027/index.html`
 
-## 🔒 Autenticação JWT
-A API utiliza autenticação via JWT. Para acessar endpoints protegidos:
-1. Realize login e obtenha um token JWT.
-2. Adicione o token no `Authorization` Header das requisições:
-   ```sh
-   Authorization: Bearer SEU_TOKEN_JWT
-   ```
-
-## 📌 Endpoints Principais
-
-### 1️⃣ Autenticação
-- **POST** `/api/auth/register` - Cadastro de usuário
-- **POST** `/api/auth/login` - Login e geração do token JWT
-
-### 2️⃣ Reservas
-- **GET** `/api/reservas?dataInicio=YYYY-MM-DD&dataFim=YYYY-MM-DD` - Listar reservas filtradas por data
-- **GET** `/api/reservas/faturamento?mes=MM&ano=YYYY` - Obter faturamento mensal
-
-## ✅ Critérios de Avaliação
-- Organização e clareza do código
-- Segurança da API
-- Eficiência das queries SQL
-
-## 🤝 Contribuição
-Se quiser contribuir, sinta-se à vontade para abrir um Pull Request! 😃
-
----
-Feito com ❤️ por verronebrunaa 🚀
-
+## 🧪 Testes (🚧 Em construção)
+Para rodar os testes automatizados do projeto, execute:
+```sh
+dotnet test
+```
+Os testes são realizados com o framework xUnit e cobrem as principais funcionalidades da API.
