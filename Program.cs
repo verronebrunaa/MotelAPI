@@ -1,13 +1,11 @@
+using System;
+using System.Text;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MotelAPI.Configurations;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using MotelAPI.Services;
-using MotelAPI.Utils;
-using System.Text;
-using DotNetEnv;
-using System.Reflection;
 
 Env.Load();
 
@@ -36,13 +34,16 @@ if (string.IsNullOrEmpty(connectionString))
 connectionString = connectionString.Replace("#{DB_PASSWORD}#", dbPassword);
 
 builder.Services.AddDbContext<MotelAPI.Data.MotelDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+);
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<FinanceService>();
 builder.Services.AddScoped<AuthService>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder
+    .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -53,7 +54,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
         };
     });
 
@@ -61,12 +62,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Motel API",
-        Version = "v1",
-        Description = "API para gerenciamento de reservas e motéis.",
-    });
+    options.SwaggerDoc(
+        "v1",
+        new Microsoft.OpenApi.Models.OpenApiInfo
+        {
+            Title = "Motel API",
+            Version = "v1",
+            Description = "API para gerenciamento de reservas e motéis.",
+        }
+    );
 });
 
 var app = builder.Build();
