@@ -3,6 +3,7 @@ using MotelAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using MotelAPI.Models;
+using System;
 
 namespace MotelAPI.Services
 {
@@ -27,8 +28,16 @@ namespace MotelAPI.Services
                 throw new KeyNotFoundException("Reserva não encontrada.");
             }
 
+            if (reserva.DataSaida < reserva.DataEntrada)
+            {
+                throw new InvalidOperationException("A data de saída não pode ser anterior à data de entrada.");
+            }
+
             var duracaoHoras = (reserva.DataSaida - reserva.DataEntrada).TotalHours;
-            return reserva.TipoSuite.PrecoPorHora * (decimal)duracaoHoras;
+            
+            var duracaoHorasArredondada = Math.Ceiling(duracaoHoras);
+
+            return reserva.TipoSuite.PrecoPorHora * (decimal)duracaoHorasArredondada;
         }
 
         public async Task ProcessarPagamentoAsync(int reservaId, decimal valor)

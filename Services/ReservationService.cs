@@ -1,11 +1,14 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MotelAPI.Data;
 using MotelAPI.Entities;
 using MotelAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace MotelAPI.Services
 {
-    public class ReservationService
+    public class ReservationService : IReservationService
     {
         private readonly MotelDbContext _dbContext;
 
@@ -16,36 +19,46 @@ namespace MotelAPI.Services
 
         public async Task<Reserva> CriarReservaAsync(ReservaModel reservaModel)
         {
-            var cliente = await _dbContext.Clientes.FindAsync(reservaModel.ClienteId);
-            var tipoSuite = await _dbContext.TiposSuite.FindAsync(reservaModel.TipoSuiteId);
-            var motel = await _dbContext.Moteis.FindAsync(reservaModel.MotelId);
+            var usuario = await _dbContext.Usuarios.FirstOrDefaultAsync(c =>
+                c.Id == reservaModel.UsuarioId
+            );
+            var tipoSuite = await _dbContext.TiposSuite.FirstOrDefaultAsync(t =>
+                t.Id == reservaModel.TipoSuiteId
+            );
+            var motel = await _dbContext.Moteis.FirstOrDefaultAsync(m =>
+                m.Id == reservaModel.MotelId
+            );
 
-            if (cliente == null || tipoSuite == null || motel == null)
+            if (usuario == null || tipoSuite == null || motel == null)
             {
-                throw new KeyNotFoundException("Cliente, tipo de suíte ou motel não encontrado.");
+                throw new KeyNotFoundException("Usuário, tipo de suíte ou motel não encontrado.");
             }
 
-            var reservaExistente = await _dbContext.Reservas
-                .Where(r => r.TipoSuiteId == reservaModel.TipoSuiteId &&
-                            r.MotelId == reservaModel.MotelId &&
-
-                                (r.DataEntrada < reservaModel.DataSaida && r.DataSaida > reservaModel.DataEntrada)
-                            )
+            var reservaExistente = await _dbContext
+                .Reservas.Where(r =>
+                    r.UsuarioId == reservaModel.UsuarioId
+                    && r.TipoSuiteId == reservaModel.TipoSuiteId
+                    && r.MotelId == reservaModel.MotelId
+                    && r.DataEntrada < reservaModel.DataSaida
+                    && r.DataSaida > reservaModel.DataEntrada
+                )
                 .AnyAsync();
 
             if (reservaExistente)
             {
-                throw new InvalidOperationException("A suíte já está reservada no período solicitado.");
+                throw new InvalidOperationException(
+                    "A suíte já está reservada no período solicitado."
+                );
             }
 
             var reserva = new Reserva
             {
-                ClienteId = reservaModel.ClienteId,
+                UsuarioId = reservaModel.UsuarioId,
                 TipoSuiteId = reservaModel.TipoSuiteId,
                 MotelId = reservaModel.MotelId,
                 DataEntrada = reservaModel.DataEntrada,
                 DataSaida = reservaModel.DataSaida,
-                ValorTotal = reservaModel.ValorTotal
+                ValorTotal = reservaModel.ValorTotal,
             };
 
             _dbContext.Reservas.Add(reserva);
@@ -62,17 +75,22 @@ namespace MotelAPI.Services
                 throw new KeyNotFoundException("Reserva não encontrada.");
             }
 
-            var reservaExistente = await _dbContext.Reservas
-                .Where(r => r.TipoSuiteId == reservaModel.TipoSuiteId &&
-                            r.MotelId == reservaModel.MotelId &&
-                            r.Id != reservaId &&
-                                (r.DataEntrada < reservaModel.DataSaida && r.DataSaida > reservaModel.DataEntrada)
-                            )
+            var reservaExistente = await _dbContext
+                .Reservas.Where(r =>
+                    r.UsuarioId == reservaModel.UsuarioId
+                    && r.TipoSuiteId == reservaModel.TipoSuiteId
+                    && r.MotelId == reservaModel.MotelId
+                    && r.Id != reservaId
+                    && r.DataEntrada < reservaModel.DataSaida
+                    && r.DataSaida > reservaModel.DataEntrada
+                )
                 .AnyAsync();
 
             if (reservaExistente)
             {
-                throw new InvalidOperationException("A suíte já está reservada no novo período solicitado.");
+                throw new InvalidOperationException(
+                    "A suíte já está reservada no novo período solicitado."
+                );
             }
 
             reserva.DataEntrada = reservaModel.DataEntrada;

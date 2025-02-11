@@ -1,14 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MotelAPI.Configurations;
+using MotelAPI.Data;
 using MotelAPI.Entities;
 using MotelAPI.Models;
-using MotelAPI.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using MotelAPI.Configurations;
 
 namespace MotelAPI.Services
 {
@@ -27,8 +27,9 @@ namespace MotelAPI.Services
 
         public async Task<string> LoginAsync(LoginModel loginModel)
         {
-            var usuario = await _dbContext.Usuarios
-                .FirstOrDefaultAsync(u => u.Email == loginModel.Email);
+            var usuario = await _dbContext.Usuarios.FirstOrDefaultAsync(u =>
+                u.Email == loginModel.Email
+            );
 
             if (usuario == null || !VerifyPassword(usuario, loginModel.Senha))
             {
@@ -46,11 +47,11 @@ namespace MotelAPI.Services
 
         private string GenerateJwtToken(Usuario usuario)
         {
-            var claims = new[] 
+            var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 new Claim(ClaimTypes.Name, usuario.Nome),
-                new Claim(ClaimTypes.Email, usuario.Email)
+                new Claim(ClaimTypes.Email, usuario.Email),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
