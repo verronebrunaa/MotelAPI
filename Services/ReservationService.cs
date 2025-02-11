@@ -2,8 +2,6 @@ using MotelAPI.Data;
 using MotelAPI.Entities;
 using MotelAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MotelAPI.Services
 {
@@ -30,9 +28,9 @@ namespace MotelAPI.Services
             var reservaExistente = await _dbContext.Reservas
                 .Where(r => r.TipoSuiteId == reservaModel.TipoSuiteId &&
                             r.MotelId == reservaModel.MotelId &&
-                            (
+
                                 (r.DataEntrada < reservaModel.DataSaida && r.DataSaida > reservaModel.DataEntrada)
-                            ))
+                            )
                 .AnyAsync();
 
             if (reservaExistente)
@@ -67,10 +65,9 @@ namespace MotelAPI.Services
             var reservaExistente = await _dbContext.Reservas
                 .Where(r => r.TipoSuiteId == reservaModel.TipoSuiteId &&
                             r.MotelId == reservaModel.MotelId &&
-                            r.Id != reservaId && 
-                            (
+                            r.Id != reservaId &&
                                 (r.DataEntrada < reservaModel.DataSaida && r.DataSaida > reservaModel.DataEntrada)
-                            ))
+                            )
                 .AnyAsync();
 
             if (reservaExistente)
