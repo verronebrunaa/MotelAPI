@@ -60,7 +60,7 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Motel API",
         Version = "v1",
         Description = "API para gerenciamento de reservas e motéis.",
-    });
+        });
 });
 
 var app = builder.Build();

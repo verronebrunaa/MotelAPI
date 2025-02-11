@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MotelAPI.Services;
 using MotelAPI.Models;
-using System.Threading.Tasks;
 
 namespace MotelAPI.Controllers
 {
