@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using MotelAPI.Entities;
-using MotelAPI.Data;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using MotelAPI.Data;
+using MotelAPI.Entities;
 using MotelAPI.Models;
 
 namespace MotelAPI.Controllers
@@ -45,7 +45,11 @@ namespace MotelAPI.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel user)
         {
-            if (user == null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Senha))
+            if (
+                user == null
+                || string.IsNullOrEmpty(user.Email)
+                || string.IsNullOrEmpty(user.Senha)
+            )
             {
                 return BadRequest(new { message = "Email e senha são obrigatórios." });
             }
@@ -67,13 +71,18 @@ namespace MotelAPI.Controllers
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
-                    new Claim(ClaimTypes.Name, dbUser.Email)
-                }),
+                Subject = new ClaimsIdentity(
+                    new[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
+                        new Claim(ClaimTypes.Name, dbUser.Email),
+                    }
+                ),
                 Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature
+                ),
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -1,35 +1,49 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using MotelAPI.Entities;
-using MotelAPI.DTOs;
 using MotelAPI.Data;
+using MotelAPI.DTOs;
+using MotelAPI.Entities;
 
-[Route("api/suites")]
-[ApiController]
-public class TipoSuiteController : ControllerBase
+namespace MotelAPI.Controllers
 {
-    private readonly MotelDbContext  _context;
-
-    public TipoSuiteController(MotelDbContext  context)
+    [Route("api/suites")]
+    [ApiController]
+    public class TipoSuiteController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly MotelDbContext _context;
 
-    [HttpPost("cadastrar")]
-    public IActionResult CadastrarSuite([FromBody] TipoSuiteDTO dto)
-    {
-        if (dto == null) return BadRequest("Dados inválidos.");
-
-        var suite = new TipoSuite
+        public TipoSuiteController(MotelDbContext context)
         {
-            Nome = dto.Nome,
-            PrecoPorHora = dto.PrecoPorHora,
-            Disponivel = dto.Disponivel,
-            Quantidade = dto.Quantidade
-        };
+            _context = context;
+        }
 
-        _context.TiposSuite.Add(suite);
-        _context.SaveChanges();
+        [HttpPost("cadastrar")]
+        public IActionResult CadastrarSuite([FromBody] TipoSuiteDto dto)
+        {
+            if (dto == null)
+                return BadRequest("Dados inválidos.");
 
-        return CreatedAtAction(nameof(CadastrarSuite), new { id = suite.Id }, suite);
+            var suite = new TipoSuite
+            {
+                Nome = dto.Nome,
+                PrecoPorHora = dto.PrecoPorHora,
+                Disponivel = dto.Disponivel,
+                Quantidade = dto.Quantidade,
+            };
+
+            _context.TiposSuite.Add(suite);
+            _context.SaveChanges();
+
+            var resultado = new
+            {
+                suite.Id,
+                suite.Nome,
+                PrecoPorHora = suite.PrecoPorHora.ToString("F2", CultureInfo.InvariantCulture), // Formatação
+                suite.Disponivel,
+                suite.Quantidade,
+            };
+
+            return CreatedAtAction(nameof(CadastrarSuite), new { id = suite.Id }, resultado);
+        }
     }
 }

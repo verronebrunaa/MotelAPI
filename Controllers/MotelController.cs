@@ -1,36 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
-using MotelAPI.Entities;
-using MotelAPI.DTOs;
 using MotelAPI.Data;
+using MotelAPI.DTOs;
+using MotelAPI.Entities;
 
-[Route("api/moteis")]
-[ApiController]
-public class MotelController : ControllerBase
+namespace MotelAPI.Controllers
 {
-    private readonly MotelDbContext  _context;
-
-    public MotelController(MotelDbContext  context)
+    [Route("api/motel")]
+    [ApiController]
+    public class MotelController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly MotelDbContext _context;
 
-    [HttpPost("cadastrar")]
-    public IActionResult CadastrarMotel([FromBody] MotelDTO dto)
-    {
-        if (dto == null) return BadRequest("Dados inválidos.");
-
-        var tipoSuite = _context.TiposSuite.Find(dto.TipoSuiteId);
-        if (tipoSuite == null) return NotFound("Tipo de suíte não encontrado.");
-
-        var motel = new Motel
+        public MotelController(MotelDbContext context)
         {
-            Nome = dto.Nome,
-            TipoSuiteId = dto.TipoSuiteId
-        };
+            _context = context;
+        }
 
-        _context.Moteis.Add(motel);
-        _context.SaveChanges();
+        [HttpPost]
+        [Route("cadastrar")]
+        public IActionResult CadastrarMotel([FromBody] MotelDto dto)
+        {
+            if (dto == null)
+                return BadRequest("Dados inválidos.");
 
-        return CreatedAtAction(nameof(CadastrarMotel), new { id = motel.Id }, motel);
+            var tipoSuite = _context.TiposSuite.Find(dto.TipoSuiteId);
+            if (tipoSuite == null)
+                return NotFound("Tipo de suíte não encontrado.");
+
+            var motel = new Motel
+            {
+                Nome = dto.Nome,
+                TipoSuiteId = dto.TipoSuiteId,
+                TipoSuite = tipoSuite,
+            };
+
+            _context.Moteis.Add(motel);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(CadastrarMotel), new { id = motel.Id }, motel);
+        }
     }
 }
