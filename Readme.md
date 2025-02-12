@@ -1,7 +1,9 @@
 # MotelAPI
 
 ## 📌 Sobre o Projeto
-MotelAPI é uma API RESTful desenvolvida em .NET Core para gerenciamento eficiente de motéis, oferecendo funcionalidades como cadastro de usuários, controle de reservas e faturamento. A API visa otimizar a gestão de dados de clientes, tipos de suítes e histórico de reservas, além de fornecer relatórios de faturamento mensal.
+MotelAPI é uma API RESTful desenvolvida em .NET Core como parte de um processo seletivo para o **Guia de Motéis**. A API foi projetada para facilitar o gerenciamento de motéis, oferecendo funcionalidades como cadastro de usuários, controle de reservas e faturamento.
+
+O objetivo é otimizar a administração de dados de clientes, tipos de suítes e histórico de reservas, além de fornecer relatórios de faturamento mensal para uma melhor análise financeira.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -13,11 +15,11 @@ MotelAPI é uma API RESTful desenvolvida em .NET Core para gerenciamento eficien
 </p>
 
 ## 📋 Funcionalidades
-- [ ] **Cadastro e login de usuários:** Garante a segurança no acesso à API.
-- [ ] **Listagem de reservas filtradas por data:** Otimiza a consulta de histórico de reservas.
-- [ ] **Obtenção de faturamento mensal:** Proporciona visibilidade para análise financeira.
-- [ ] **Cadastro de moteis e de suítes:** 
-- [ ] **Gerenciamento de reserva:** 
+- ✅ **Cadastro e login de usuários:** Garante a segurança no acesso à API.
+- ✅ **Listagem de reservas filtradas por data:** Otimiza a consulta de histórico de reservas.
+- ✅ **Obtenção de faturamento mensal:** Proporciona visibilidade para análise financeira.
+- ✅ **Cadastro e gerenciamento de motéis e suítes:** Permite o controle de estabelecimentos e acomodações.
+- ✅ **Gerenciamento de reservas:** Cria, edita e cancela reservas de forma eficiente.
 
 ## 🛠️ Configuração do Ambiente
 
@@ -40,7 +42,7 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 ```
 
 ### 🔧 Passo 3: Instalar Dependências
-Antes de rodar o projeto, instale os pacotes necessários. Você pode usar o seguinte comando para instalar todas as dependências de uma vez:
+Antes de rodar o projeto, instale os pacotes necessários. Para isso, execute:
 ```sh
 dotnet restore
 ```
@@ -77,3 +79,8 @@ Para rodar os testes automatizados do projeto, execute:
 dotnet test
 ```
 Os testes são realizados com o framework xUnit e cobrem as principais funcionalidades da API.
+
+## 📞 Contato
+Caso tenha dúvidas ou sugestões, entre em contato:
+- 💼 LinkedIn: [Seu Perfil](https://www.linkedin.com/in/verronebrunaa)
+
