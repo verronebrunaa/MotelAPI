@@ -5,15 +5,6 @@ MotelAPI é uma API RESTful desenvolvida em .NET Core como parte de um processo 
 
 O objetivo é otimizar a administração de dados de clientes, tipos de suítes e histórico de reservas, além de fornecer relatórios de faturamento mensal para uma melhor análise financeira.
 
-## 🚀 Tecnologias Utilizadas
-
-<p align="center">
-  <img src="https://img.shields.io/badge/.NET_Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET Core">
-  <img src="https://img.shields.io/badge/Entity_Framework_Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="Entity Framework Core">
-  <img src="https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="SQL Server">
-  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT">
-</p>
-
 ## 📋 Funcionalidades
 - ✅ **Cadastro e login de usuários:** Garante a segurança no acesso à API.
 - ✅ **Listagem de reservas filtradas por data:** Otimiza a consulta de histórico de reservas.
@@ -79,8 +70,4 @@ Para rodar os testes automatizados do projeto, execute:
 dotnet test
 ```
 Os testes são realizados com o framework xUnit e cobrem as principais funcionalidades da API.
-
-## 📞 Contato
-Caso tenha dúvidas ou sugestões, entre em contato:
-- 💼 LinkedIn: [Seu Perfil](https://www.linkedin.com/in/verronebrunaa)
 
