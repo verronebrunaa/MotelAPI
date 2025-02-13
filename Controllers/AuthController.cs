@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MotelAPI.Data;
 using MotelAPI.Entities;
@@ -51,10 +52,12 @@ namespace MotelAPI.Controllers
                 || string.IsNullOrEmpty(user.Senha)
             )
             {
-                return BadRequest(new { message = "Email e senha são obrigatórios." });
+                return BadRequest(new { message = "Credenciais inválidas!" });
             }
 
-            var dbUser = _context.Usuarios.FirstOrDefault(u => u.Email == user.Email);
+            var dbUser = _context
+                .Usuarios.AsNoTracking()
+                .FirstOrDefault(u => u.Email == user.Email);
 
             if (dbUser == null || !BCrypt.Net.BCrypt.Verify(user.Senha, dbUser.Senha))
             {
@@ -62,12 +65,12 @@ namespace MotelAPI.Controllers
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("JwtSettings:SecretKey");
-
-            if (key == null || key.Length == 0)
+            var keyString = _config["JwtSettings:SecretKey"];
+            if (string.IsNullOrEmpty(keyString))
             {
                 return StatusCode(500, new { message = "Chave JWT não configurada corretamente." });
             }
+            var key = Encoding.UTF8.GetBytes(keyString);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

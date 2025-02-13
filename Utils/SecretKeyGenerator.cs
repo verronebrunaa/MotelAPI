@@ -6,7 +6,7 @@ namespace MotelAPI.Utils
 {
     public static class SecretKeyGenerator
     {
-        private const string EnvFilePath = ".env"; 
+        private const string EnvFilePath = ".env";
 
         public static void GenerateAndSaveSecretKey()
         {

@@ -1,9 +1,5 @@
-using MotelAPI.Data;
-using MotelAPI.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using MotelAPI.Models;
-using System;
+using MotelAPI.Data;
 
 namespace MotelAPI.Services
 {
@@ -18,8 +14,8 @@ namespace MotelAPI.Services
 
         public async Task<decimal> CalcularValorReservaAsync(int reservaId)
         {
-            var reserva = await _dbContext.Reservas
-                .Include(r => r.Motel)
+            var reserva = await _dbContext
+                .Reservas.Include(r => r.Motel)
                 .Include(r => r.TipoSuite)
                 .FirstOrDefaultAsync(r => r.Id == reservaId);
 
@@ -30,11 +26,13 @@ namespace MotelAPI.Services
 
             if (reserva.DataSaida < reserva.DataEntrada)
             {
-                throw new InvalidOperationException("A data de saída não pode ser anterior à data de entrada.");
+                throw new InvalidOperationException(
+                    "A data de saída não pode ser anterior à data de entrada."
+                );
             }
 
             var duracaoHoras = (reserva.DataSaida - reserva.DataEntrada).TotalHours;
-            
+
             var duracaoHorasArredondada = Math.Ceiling(duracaoHoras);
 
             return reserva.TipoSuite.PrecoPorHora * (decimal)duracaoHorasArredondada;

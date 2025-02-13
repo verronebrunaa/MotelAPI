@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using MotelAPI.Entities;
 using MotelAPI.Models;
 

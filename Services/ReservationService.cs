@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MotelAPI.Data;
 using MotelAPI.Entities;
@@ -53,9 +50,10 @@ namespace MotelAPI.Services
 
             var reserva = new Reserva
             {
-                UsuarioId = reservaModel.UsuarioId,
-                TipoSuiteId = reservaModel.TipoSuiteId,
-                MotelId = reservaModel.MotelId,
+                Id = 0,
+                Usuario = usuario,
+                TipoSuite = tipoSuite,
+                Motel = motel,
                 DataEntrada = reservaModel.DataEntrada,
                 DataSaida = reservaModel.DataSaida,
                 ValorTotal = reservaModel.ValorTotal,

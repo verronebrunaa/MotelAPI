@@ -1,5 +1,3 @@
-using System;
-
 namespace MotelAPI.Models
 {
     public class ReservaModel

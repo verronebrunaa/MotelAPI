@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MotelAPI.Data;
@@ -46,6 +47,9 @@ namespace MotelAPI.Controllers
 
             var reserva = new Reserva
             {
+                Usuario = usuario,
+                TipoSuite = tipoSuite,
+                Motel = moteis,
                 DataEntrada = dto.DataEntrada,
                 DataSaida = dto.DataSaida,
                 UsuarioId = dto.UsuarioId,
