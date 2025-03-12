@@ -18,8 +18,11 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
+      - name: Verify files and directories
+        run: pwd && ls -la
+
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore MotelAPI.sln
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
